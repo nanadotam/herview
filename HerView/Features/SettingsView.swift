@@ -3,18 +3,6 @@ import SwiftUI
 struct SettingsView: View {
     @Environment(\.dismiss) var dismiss
     let viewModel: SlideshowViewModel
-    @State private var interval: Double
-    @State private var shuffleEnabled: Bool
-    @State private var cropMode: CropMode
-    @State private var filter: PhotoFilter
-
-    init(viewModel: SlideshowViewModel) {
-        self.viewModel = viewModel
-        _interval = State(initialValue: viewModel.settings.intervalSeconds)
-        _shuffleEnabled = State(initialValue: viewModel.settings.shuffleEnabled)
-        _cropMode = State(initialValue: viewModel.settings.cropMode)
-        _filter = State(initialValue: viewModel.settings.filter)
-    }
 
     var body: some View {
         NavigationStack {
@@ -24,14 +12,15 @@ struct SettingsView: View {
                         HStack(spacing: 8) {
                             ForEach([10.0, 30.0, 60.0, 300.0], id: \.self) { intervalValue in
                                 Button(action: {
-                                    interval = intervalValue
-                                    updateSettings()
+                                    var newSettings = viewModel.settings
+                                    newSettings.intervalSeconds = intervalValue
+                                    viewModel.updateSettings(newSettings)
                                 }) {
                                     Text(formatInterval(intervalValue))
                                         .frame(maxWidth: .infinity)
                                         .padding(.vertical, 8)
-                                        .background(interval == intervalValue ? Color.pink : Color(UIColor.systemGray5))
-                                        .foregroundColor(interval == intervalValue ? .white : .gray)
+                                        .background(viewModel.settings.intervalSeconds == intervalValue ? Color.pink : Color(UIColor.systemGray5))
+                                        .foregroundColor(viewModel.settings.intervalSeconds == intervalValue ? .white : .gray)
                                         .cornerRadius(8)
                                         .font(.caption)
                                         .fontWeight(.semibold)
@@ -43,7 +32,14 @@ struct SettingsView: View {
                 }
 
                 Section("Playback") {
-                    Toggle(isOn: $shuffleEnabled.onChange(updateSettings)) {
+                    Toggle(isOn: Binding(
+                        get: { viewModel.settings.shuffleEnabled },
+                        set: { newValue in
+                            var newSettings = viewModel.settings
+                            newSettings.shuffleEnabled = newValue
+                            viewModel.updateSettings(newSettings)
+                        }
+                    )) {
                         HStack(spacing: 12) {
                             Image(systemName: "shuffle")
                                 .font(.callout)
@@ -83,13 +79,27 @@ struct SettingsView: View {
                 }
 
                 Section("Display") {
-                    Picker("Crop Mode", selection: $cropMode.onChange(updateSettings)) {
+                    Picker("Crop Mode", selection: Binding(
+                        get: { viewModel.settings.cropMode },
+                        set: { newValue in
+                            var newSettings = viewModel.settings
+                            newSettings.cropMode = newValue
+                            viewModel.updateSettings(newSettings)
+                        }
+                    )) {
                         ForEach(CropMode.allCases, id: \.self) { mode in
                             Text(mode.rawValue).tag(mode)
                         }
                     }
 
-                    Picker("Filter", selection: $filter.onChange(updateSettings)) {
+                    Picker("Filter", selection: Binding(
+                        get: { viewModel.settings.filter },
+                        set: { newValue in
+                            var newSettings = viewModel.settings
+                            newSettings.filter = newValue
+                            viewModel.updateSettings(newSettings)
+                        }
+                    )) {
                         ForEach(PhotoFilter.allCases, id: \.self) { filterOption in
                             Text(filterOption.rawValue).tag(filterOption)
                         }
@@ -101,8 +111,9 @@ struct SettingsView: View {
                         HStack(spacing: 8) {
                             ForEach(PhotoFilter.allCases, id: \.self) { filterOption in
                                 Button(action: {
-                                    filter = filterOption
-                                    updateSettings()
+                                    var newSettings = viewModel.settings
+                                    newSettings.filter = filterOption
+                                    viewModel.updateSettings(newSettings)
                                 }) {
                                     HStack(spacing: 6) {
                                         Circle()
@@ -112,8 +123,8 @@ struct SettingsView: View {
                                     }
                                     .padding(.vertical, 8)
                                     .padding(.horizontal, 14)
-                                    .background(filter == filterOption ? Color(red: 1, green: 0.9, blue: 0.95) : Color(UIColor.systemGray5))
-                                    .foregroundColor(filter == filterOption ? .pink : .gray)
+                                    .background(viewModel.settings.filter == filterOption ? Color(red: 1, green: 0.9, blue: 0.95) : Color(UIColor.systemGray5))
+                                    .foregroundColor(viewModel.settings.filter == filterOption ? .pink : .gray)
                                     .cornerRadius(12)
                                     .font(.caption)
                                     .fontWeight(.semibold)
@@ -193,16 +204,6 @@ struct SettingsView: View {
         }
     }
 
-    private func updateSettings() {
-        let newSettings = SlideshowSettings(
-            intervalSeconds: interval,
-            shuffleEnabled: shuffleEnabled,
-            cropMode: cropMode,
-            filter: filter
-        )
-        viewModel.updateSettings(newSettings)
-    }
-
     private func formatInterval(_ seconds: Double) -> String {
         if seconds < 60 { return "\(Int(seconds))s" }
         return "\(Int(seconds / 60)) min"
@@ -215,19 +216,6 @@ struct SettingsView: View {
         case .warm: return .orange
         case .cool: return .blue
         }
-    }
-}
-
-// Helper extension for binding onChange
-extension Binding {
-    func onChange(_ handler: @escaping () -> Void) -> Binding<Value> {
-        Binding(
-            get: { self.wrappedValue },
-            set: { newValue in
-                self.wrappedValue = newValue
-                handler()
-            }
-        )
     }
 }
 
