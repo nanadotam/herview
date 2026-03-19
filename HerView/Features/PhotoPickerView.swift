@@ -60,15 +60,21 @@ struct PhotoPickerView: View {
             }
 
             // Show completion message
-            await MainActor.run {
-                if addedCount > 0 {
+            if addedCount > 0 {
+                await MainActor.run {
                     processingMessage = "Added \(addedCount) photo\(addedCount > 1 ? "s" : "")!"
-                    try? Task.sleep(nanoseconds: 500_000_000)
+                }
+                try? await Task.sleep(nanoseconds: 500_000_000)
+                await MainActor.run {
                     onPhotosPicked()
                     dismiss()
-                } else {
+                }
+            } else {
+                await MainActor.run {
                     processingMessage = "No photos added"
-                    try? Task.sleep(nanoseconds: 500_000_000)
+                }
+                try? await Task.sleep(nanoseconds: 500_000_000)
+                await MainActor.run {
                     isProcessing = false
                 }
             }
