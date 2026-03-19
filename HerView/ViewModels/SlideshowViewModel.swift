@@ -64,13 +64,17 @@ class SlideshowViewModel {
 
     func addPhoto(with localIdentifier: String) {
         if !photoIdentifiers.contains(localIdentifier) {
-            photoIdentifiers.append(localIdentifier)
+            var updated = photoIdentifiers
+            updated.append(localIdentifier)
+            photoIdentifiers = updated
             savePhotoIdentifiers()
         }
     }
 
     func removePhoto(with localIdentifier: String) {
-        photoIdentifiers.removeAll { $0 == localIdentifier }
+        var updated = photoIdentifiers
+        updated.removeAll { $0 == localIdentifier }
+        photoIdentifiers = updated
         if currentPhotoIdentifier == localIdentifier {
             showNextPhoto()
         }
