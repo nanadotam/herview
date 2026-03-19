@@ -61,8 +61,9 @@ struct HerViewWidgetView: View {
 }
 
 // MARK: - Widget Definition
+// Note: @main removed because widget is in main app bundle
+// Widget needs its own target to be the entry point
 
-@main
 struct HerViewWidget: WidgetBundle {
     var body: some Widget {
         HerViewTimelineWidget()

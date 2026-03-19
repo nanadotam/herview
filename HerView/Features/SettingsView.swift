@@ -30,7 +30,7 @@ struct SettingsView: View {
                                     Text(formatInterval(intervalValue))
                                         .frame(maxWidth: .infinity)
                                         .padding(.vertical, 8)
-                                        .background(interval == intervalValue ? Color.pink : Color(UIColor.systemGray5))
+                                        .background(interval == intervalValu    e ? Color.pink : Color(UIColor.systemGray5))
                                         .foregroundColor(interval == intervalValue ? .white : .gray)
                                         .cornerRadius(8)
                                         .font(.caption)
