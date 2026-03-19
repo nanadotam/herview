@@ -133,7 +133,7 @@ struct HomeView: View {
             }
             .background(Color(UIColor.systemGray6))
             .sheet(isPresented: $showingPhotoPicker) {
-                PhotoPickerView(viewModel: viewModel)
+                PhotoPickerView(viewModel: viewModel, onPhotosPicked: {})
             }
             .onAppear {
                 viewModel.startSlideshow()

@@ -73,5 +73,5 @@ struct PHPickerRepresentable: UIViewControllerRepresentable {
 }
 
 #Preview {
-    PhotoPickerView(viewModel: SlideshowViewModel())
+    PhotoPickerView(viewModel: SlideshowViewModel(), onPhotosPicked: {})
 }
