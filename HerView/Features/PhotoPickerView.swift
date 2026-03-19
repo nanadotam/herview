@@ -46,21 +46,29 @@ struct PhotoPickerView: View {
 
                 print("🔍 Processing result \(index + 1)")
 
-                // Only add photos that have assetIdentifier (from library)
+                // Try assetIdentifier first (for library photos)
                 if let assetIdentifier = result.assetIdentifier {
                     print("✅ Got assetIdentifier: \(assetIdentifier)")
-                    let asset = PHAsset.fetchAssets(withLocalIdentifiers: [assetIdentifier], options: nil).firstObject
-
-                    if asset != nil {
-                        print("📝 Asset found, adding to viewModel")
-                        viewModel.addPhoto(with: assetIdentifier)
-                        addedCount += 1
-                        print("✓ Added. Total: \(viewModel.photoIdentifiers.count)")
-                    } else {
-                        print("❌ Asset not found in library")
-                    }
+                    viewModel.addPhoto(with: assetIdentifier)
+                    addedCount += 1
+                    print("✓ Added via assetIdentifier. Total: \(viewModel.photoIdentifiers.count)")
                 } else {
-                    print("⚠️ Photo doesn't have library identifier, skipping (not from camera roll)")
+                    // Fallback: load and save to library
+                    print("⚠️ No assetIdentifier, loading from itemProvider...")
+                    if result.itemProvider.canLoadObject(ofClass: UIImage.self) {
+                        let itemProvider = result.itemProvider
+                        itemProvider.loadObject(ofClass: UIImage.self) { image, error in
+                            if let image = image as? UIImage {
+                                print("📷 Loaded UIImage, saving to library...")
+                                self.saveImageToLibrary(image)
+                                DispatchQueue.main.async {
+                                    addedCount += 1
+                                }
+                            } else {
+                                print("❌ Failed to load: \(error?.localizedDescription ?? "unknown")")
+                            }
+                        }
+                    }
                 }
 
                 try? await Task.sleep(nanoseconds: 100_000_000)
@@ -84,6 +92,18 @@ struct PhotoPickerView: View {
                 await MainActor.run {
                     isProcessing = false
                 }
+            }
+        }
+    }
+
+    private func saveImageToLibrary(_ image: UIImage) {
+        PHPhotoLibrary.shared().performChanges {
+            PHAssetChangeRequest.creationRequestForAsset(from: image)
+        } completionHandler: { success, error in
+            if success {
+                print("💾 Image saved to library")
+            } else {
+                print("❌ Failed to save: \(error?.localizedDescription ?? "unknown")")
             }
         }
     }
