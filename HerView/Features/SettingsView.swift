@@ -193,7 +193,6 @@ struct SettingsView: View {
             }
             .navigationTitle("Settings")
             .navigationBarTitleDisplayMode(.inline)
-        }
     }
 
     private func formatInterval(_ seconds: Double) -> String {
