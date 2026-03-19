@@ -42,6 +42,7 @@ struct PHPickerRepresentable: UIViewControllerRepresentable {
     class Coordinator: NSObject, PHPickerViewControllerDelegate {
         let viewModel: SlideshowViewModel
         let onComplete: (Bool) -> Void
+        weak var pickerViewController: PHPickerViewController?
 
         init(viewModel: SlideshowViewModel, onComplete: @escaping (Bool) -> Void) {
             self.viewModel = viewModel
@@ -49,21 +50,20 @@ struct PHPickerRepresentable: UIViewControllerRepresentable {
         }
 
         func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+            self.pickerViewController = picker
+
             var addedCount = 0
 
             for result in results {
-                result.itemProvider.loadFileRepresentation(forTypeIdentifier: "public.image") { url, error in
-                    if let url = url {
-                        // Get the PHAsset from the picker result
-                        if let assetIdentifier = result.assetIdentifier {
-                            self.viewModel.addPhoto(with: assetIdentifier)
-                            addedCount += 1
-                        }
-                    }
+                // Get the asset identifier directly from the result
+                if let assetIdentifier = result.assetIdentifier {
+                    self.viewModel.addPhoto(with: assetIdentifier)
+                    addedCount += 1
                 }
             }
 
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            // Dismiss the picker
+            picker.dismiss(animated: true) {
                 self.onComplete(addedCount > 0)
             }
         }
