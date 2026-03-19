@@ -79,7 +79,7 @@ struct HerViewTimelineWidget: Widget {
         }
         .configurationDisplayName("HerView")
         .description("Display your favorite photo rotating on your home screen. Always with you.")
-        .supportedFamilies([.systemSmall, .systemMedium, .systemLarge])
+        .supportedFamilies([.systemSmall, .systemMedium, .systemLarge, .systemExtraLarge])
     }
 }
 

@@ -69,6 +69,7 @@ struct PhotoManagementView: View {
                                 onDelete: { viewModel.removePhoto(with: identifier) }
                             )
                         }
+                        .onMove(perform: movePhotos)
                     }
                     .background(Color.white)
                     .cornerRadius(12)
@@ -103,6 +104,12 @@ struct PhotoManagementView: View {
                 photoLibraryStatus = newStatus
             }
         }
+    }
+
+    private func movePhotos(from source: IndexSet, to destination: Int) {
+        var updatedIdentifiers = viewModel.photoIdentifiers
+        updatedIdentifiers.move(fromOffsets: source, toOffset: destination)
+        viewModel.reorderPhotos(updatedIdentifiers)
     }
 }
 
