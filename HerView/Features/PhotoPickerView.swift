@@ -31,6 +31,7 @@ struct PhotoPickerView: View {
     }
 
     private func handlePhotosPicked(_ results: [PHPickerResult]) {
+        print("📸 handlePhotosPicked called with \(results.count) results")
         isProcessing = true
         processingMessage = "Adding photos..."
 
@@ -39,23 +40,38 @@ struct PhotoPickerView: View {
             let totalCount = results.count
 
             for (index, result) in results.enumerated() {
-                // Update progress message
                 await MainActor.run {
                     processingMessage = "Adding photo \(index + 1) of \(totalCount)..."
                 }
 
-                // Get asset identifier and validate it exists
-                if let assetIdentifier = result.assetIdentifier {
-                    let asset = PHAsset.fetchAssets(withLocalIdentifiers: [assetIdentifier], options: nil).firstObject
+                print("🔍 Processing result \(index + 1)")
 
-                    if asset != nil {
-                        // Photo exists, add it
-                        viewModel.addPhoto(with: assetIdentifier)
+                // Try assetIdentifier first (for photos from library)
+                if let assetIdentifier = result.assetIdentifier {
+                    print("✅ Got assetIdentifier: \(assetIdentifier)")
+                    viewModel.addPhoto(with: assetIdentifier)
+                    addedCount += 1
+                    print("✓ Added via assetIdentifier. Total: \(viewModel.photoIdentifiers.count)")
+                } else {
+                    // Fallback: load image from itemProvider
+                    print("⚠️ No assetIdentifier, trying itemProvider...")
+                    if result.itemProvider.canLoadObject(ofClass: UIImage.self) {
+                        let itemProvider = result.itemProvider
+                        itemProvider.loadObject(ofClass: UIImage.self) { image, error in
+                            if let image = image as? UIImage {
+                                print("📷 Loaded UIImage from itemProvider")
+                                // Save to photo library and get identifier
+                                DispatchQueue.main.async {
+                                    self.saveImageToLibrary(image)
+                                }
+                            } else {
+                                print("❌ Failed to load image: \(error?.localizedDescription ?? "unknown")")
+                            }
+                        }
                         addedCount += 1
                     }
                 }
 
-                // Small delay to ensure UI updates
                 try? await Task.sleep(nanoseconds: 100_000_000)
             }
 
@@ -77,6 +93,23 @@ struct PhotoPickerView: View {
                 await MainActor.run {
                     isProcessing = false
                 }
+            }
+        }
+    }
+
+    private func saveImageToLibrary(_ image: UIImage) {
+        var localIdentifier: String?
+        PHPhotoLibrary.shared().performChanges {
+            let creationRequest = PHAssetChangeRequest.creationRequestForAsset(from: image)
+            localIdentifier = creationRequest.placeholderForCreatedAsset?.localIdentifier
+        } completionHandler: { success, error in
+            if success, let identifier = localIdentifier {
+                print("💾 Saved image to library with identifier: \(identifier)")
+                DispatchQueue.main.async {
+                    self.viewModel.addPhoto(with: identifier)
+                }
+            } else {
+                print("❌ Failed to save image: \(error?.localizedDescription ?? "unknown")")
             }
         }
     }
@@ -113,7 +146,9 @@ struct PHPickerRepresentable: UIViewControllerRepresentable {
         }
 
         func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+            print("🎬 picker didFinishPicking called with \(results.count) results")
             picker.dismiss(animated: true) {
+                print("✨ Calling onComplete with \(results.count) results")
                 self.onComplete(results)
             }
         }

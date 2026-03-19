@@ -63,11 +63,18 @@ class SlideshowViewModel {
     }
 
     func addPhoto(with localIdentifier: String) {
+        print("🎯 addPhoto called with: \(localIdentifier)")
+        print("📊 Current count before: \(photoIdentifiers.count)")
         if !photoIdentifiers.contains(localIdentifier) {
             var updated = photoIdentifiers
             updated.append(localIdentifier)
             photoIdentifiers = updated
+            print("📊 Current count after: \(photoIdentifiers.count)")
+            print("📋 All identifiers: \(photoIdentifiers)")
             savePhotoIdentifiers()
+            print("💾 Saved to UserDefaults")
+        } else {
+            print("⚠️ Photo already exists")
         }
     }
 
