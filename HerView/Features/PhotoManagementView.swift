@@ -4,6 +4,7 @@ import Photos
 struct PhotoManagementView: View {
     let viewModel: SlideshowViewModel
     @State private var showingPhotoPicker = false
+    @State private var photoLibraryStatus = PHPhotoLibrary.authorizationStatus(for: .readWrite)
 
     var body: some View {
         NavigationStack {
@@ -43,26 +44,42 @@ struct PhotoManagementView: View {
                 .padding(.vertical, 12)
 
                 // Photo list
-                ScrollView {
-                    VStack(spacing: 0) {
-                        ForEach(Array(viewModel.photoIdentifiers.enumerated()), id: \.element) { index, identifier in
-                            PhotoManagementRow(
-                                identifier: identifier,
-                                isCurrentPhoto: viewModel.currentPhotoIdentifier == identifier,
-                                index: index + 1,
-                                onDelete: { viewModel.removePhoto(with: identifier) }
-                            )
-                        }
+                if viewModel.photoIdentifiers.isEmpty {
+                    VStack(spacing: 12) {
+                        Image(systemName: "photo.badge.plus")
+                            .font(.system(size: 48))
+                            .foregroundColor(.gray)
+                        Text("No photos yet")
+                            .font(.callout)
+                            .fontWeight(.semibold)
+                        Text("Tap Add to select photos from your library")
+                            .font(.caption)
+                            .foregroundColor(.gray)
                     }
-                    .background(Color.white)
-                    .cornerRadius(12)
-                    .padding(.horizontal, 16)
-                }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(Color(UIColor.systemGray6))
+                } else {
+                    ScrollView {
+                        VStack(spacing: 0) {
+                            ForEach(Array(viewModel.photoIdentifiers.enumerated()), id: \.element) { index, identifier in
+                                PhotoManagementRow(
+                                    identifier: identifier,
+                                    isCurrentPhoto: viewModel.currentPhotoIdentifier == identifier,
+                                    index: index + 1,
+                                    onDelete: { viewModel.removePhoto(with: identifier) }
+                                )
+                            }
+                        }
+                        .background(Color.white)
+                        .cornerRadius(12)
+                        .padding(.horizontal, 16)
+                    }
 
-                Text("Swipe left to remove · Drag = to reorder")
-                    .font(.caption2)
-                    .foregroundColor(.gray)
-                    .padding(.vertical, 12)
+                    Text("Swipe left to remove · Drag = to reorder")
+                        .font(.caption2)
+                        .foregroundColor(.gray)
+                        .padding(.vertical, 12)
+                }
 
                 Spacer()
             }
@@ -72,6 +89,19 @@ struct PhotoManagementView: View {
             }
             .navigationTitle("Photos")
             .navigationBarTitleDisplayMode(.inline)
+            .task {
+                await requestPhotoAccess()
+            }
+        }
+    }
+
+    private func requestPhotoAccess() async {
+        let status = PHPhotoLibrary.authorizationStatus(for: .readWrite)
+        if status == .notDetermined {
+            let newStatus = await PHPhotoLibrary.requestAuthorization(for: .readWrite)
+            await MainActor.run {
+                photoLibraryStatus = newStatus
+            }
         }
     }
 }
@@ -143,10 +173,12 @@ struct PhotoManagementRow: View {
     private func loadThumbnail() {
         let options = PHImageRequestOptions()
         options.deliveryMode = .fastFormat
-        options.isSynchronous = true
+        options.isSynchronous = false
 
         let fetchResult = PHAsset.fetchAssets(withLocalIdentifiers: [identifier], options: nil)
-        guard let asset = fetchResult.firstObject else { return }
+        guard let asset = fetchResult.firstObject else {
+            return
+        }
 
         PHImageManager.default().requestImage(
             for: asset,
@@ -154,7 +186,11 @@ struct PhotoManagementRow: View {
             contentMode: .aspectFill,
             options: options
         ) { image, _ in
-            image.map { self.image = $0 }
+            if let image = image {
+                DispatchQueue.main.async {
+                    self.image = image
+                }
+            }
         }
     }
 }
