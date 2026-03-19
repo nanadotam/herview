@@ -1,10 +1,7 @@
 import SwiftUI
 
 struct WidgetGuideView: View {
-    @Environment(\.dismiss) var dismiss
-
     var body: some View {
-        NavigationStack {
             ScrollView {
                 VStack(spacing: 12) {
                     // Step 1
@@ -172,13 +169,6 @@ struct WidgetGuideView: View {
             .background(Color(UIColor.systemGray6))
             .navigationTitle("Add Widget")
             .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button("‹ Back") { dismiss() }
-                        .foregroundColor(.pink)
-                }
-            }
-        }
     }
 }
 

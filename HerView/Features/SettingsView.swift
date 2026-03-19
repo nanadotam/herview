@@ -1,11 +1,9 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @Environment(\.dismiss) var dismiss
     let viewModel: SlideshowViewModel
 
     var body: some View {
-        NavigationStack {
             Form {
                 Section("Slideshow Interval") {
                     VStack(spacing: 12) {
@@ -195,12 +193,6 @@ struct SettingsView: View {
             }
             .navigationTitle("Settings")
             .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button("‹ Back") { dismiss() }
-                        .foregroundColor(.pink)
-                }
-            }
         }
     }
 

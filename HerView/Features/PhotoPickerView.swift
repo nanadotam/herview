@@ -5,11 +5,13 @@ import Photos
 struct PhotoPickerView: View {
     @Environment(\.dismiss) var dismiss
     let viewModel: SlideshowViewModel
+    let onPhotosPicked: () -> Void
 
     var body: some View {
         ZStack {
             PHPickerRepresentable(viewModel: viewModel, isPresented: .constant(true)) { didAdd in
                 if didAdd {
+                    onPhotosPicked()
                     dismiss()
                 }
             }
