@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import Photos
 
 @main
 struct HerViewApp: App {
@@ -20,12 +21,22 @@ struct HerViewApp: App {
                     .onChange(of: hasSeenOnboarding) { oldValue, newValue in
                         UserDefaults.standard.set(newValue, forKey: "hasSeenOnboarding")
                     }
+                    .task {
+                        await requestPhotoLibraryAccess()
+                    }
             } else {
                 OnboardingView(hasSeenOnboarding: $hasSeenOnboarding)
                     .onChange(of: hasSeenOnboarding) { oldValue, newValue in
                         UserDefaults.standard.set(newValue, forKey: "hasSeenOnboarding")
                     }
             }
+        }
+    }
+
+    private func requestPhotoLibraryAccess() async {
+        let status = PHPhotoLibrary.authorizationStatus(for: .readWrite)
+        if status == .notDetermined {
+            let _ = await PHPhotoLibrary.requestAuthorization(for: .readWrite)
         }
     }
 }

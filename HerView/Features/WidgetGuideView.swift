@@ -103,44 +103,64 @@ struct WidgetGuideView: View {
                             .foregroundColor(.gray)
                             .padding(.leading, 4)
 
-                        HStack(spacing: 12) {
-                            VStack(spacing: 8) {
-                                RoundedRectangle(cornerRadius: 12)
-                                    .fill(
-                                        LinearGradient(
-                                            gradient: Gradient(colors: [.pink.opacity(0.8), .pink]),
-                                            startPoint: .topLeading,
-                                            endPoint: .bottomTrailing
-                                        )
-                                    )
-                                    .frame(width: 100, height: 100)
-                                    .overlay(
-                                        Text("Small\n(1×1)")
-                                            .font(.caption2)
-                                            .foregroundColor(.white)
-                                            .fontWeight(.semibold)
-                                            .multilineTextAlignment(.center)
-                                    )
-
-                                RoundedRectangle(cornerRadius: 12)
-                                    .fill(
-                                        LinearGradient(
-                                            gradient: Gradient(colors: [.red.opacity(0.7), .pink]),
-                                            startPoint: .topLeading,
-                                            endPoint: .bottomTrailing
-                                        )
-                                    )
-                                    .frame(width: 100, height: 100)
-                                    .overlay(
-                                        Text("Medium\n(2×1)"
+                        VStack(spacing: 12) {
+                            // Small & Medium row
+                            HStack(spacing: 12) {
+                                VStack(spacing: 8) {
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .fill(
+                                            LinearGradient(
+                                                gradient: Gradient(colors: [.pink.opacity(0.8), .pink]),
+                                                startPoint: .topLeading,
+                                                endPoint: .bottomTrailing
                                             )
-                                            .font(.caption2)
-                                            .foregroundColor(.white)
-                                            .fontWeight(.semibold)
-                                            .multilineTextAlignment(.center)
-                                    )
+                                        )
+                                        .frame(width: 80, height: 80)
+                                        .overlay(
+                                            Text("Small\n(1×1)")
+                                                .font(.caption2)
+                                                .foregroundColor(.white)
+                                                .fontWeight(.semibold)
+                                                .multilineTextAlignment(.center)
+                                        )
+
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .fill(
+                                            LinearGradient(
+                                                gradient: Gradient(colors: [.red.opacity(0.7), .pink]),
+                                                startPoint: .topLeading,
+                                                endPoint: .bottomTrailing
+                                            )
+                                        )
+                                        .frame(width: 120, height: 80)
+                                        .overlay(
+                                            Text("Medium (2×1)")
+                                                .font(.caption2)
+                                                .foregroundColor(.white)
+                                                .fontWeight(.semibold)
+                                                .multilineTextAlignment(.center)
+                                        )
+                                }
+                                Spacer()
                             }
-                            Spacer()
+
+                            // Large widget (full width)
+                            RoundedRectangle(cornerRadius: 12)
+                                .fill(
+                                    LinearGradient(
+                                        gradient: Gradient(colors: [.orange.opacity(0.7), .pink]),
+                                        startPoint: .topLeading,
+                                        endPoint: .bottomTrailing
+                                    )
+                                )
+                                .frame(height: 120)
+                                .overlay(
+                                    Text("Large (2×2) — Best for viewing photos!")
+                                        .font(.caption)
+                                        .foregroundColor(.white)
+                                        .fontWeight(.semibold)
+                                        .multilineTextAlignment(.center)
+                                )
                         }
                     }
                     .padding(16)

@@ -12,7 +12,7 @@ enum PhotoFilter: String, Codable, CaseIterable {
     case cool = "Cool"
 }
 
-struct SlideshowSettings: Codable {
+struct SlideshowSettings: Codable, Equatable {
     var intervalSeconds: Double = 60
     var shuffleEnabled: Bool = false
     var cropMode: CropMode = .fill
