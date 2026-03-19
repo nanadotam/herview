@@ -82,25 +82,5 @@ struct HerViewTimelineWidget: Widget {
     }
 }
 
-// MARK: - Previews
-
-#Preview("Small", as: .systemSmall) {
-    HerViewWidget()
-} timeline: {
-    HerViewEntry(date: .now, photoIdentifier: nil, photoImage: nil)
-    HerViewEntry(date: .now.addingTimeInterval(60), photoIdentifier: nil, photoImage: nil)
-}
-
-#Preview("Medium", as: .systemMedium) {
-    HerViewWidget()
-} timeline: {
-    HerViewEntry(date: .now, photoIdentifier: nil, photoImage: nil)
-    HerViewEntry(date: .now.addingTimeInterval(60), photoIdentifier: nil, photoImage: nil)
-}
-
-#Preview("Large", as: .systemLarge) {
-    HerViewWidget()
-} timeline: {
-    HerViewEntry(date: .now, photoIdentifier: nil, photoImage: nil)
-    HerViewEntry(date: .now.addingTimeInterval(60), photoIdentifier: nil, photoImage: nil)
-}
+// Widget previews will work once widget files are in a separate Widget Extension target
+// For now, test widgets by adding them to your home screen in the simulator
