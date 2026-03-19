@@ -9,7 +9,6 @@ class SlideshowViewModel {
     var isRunning = false
 
     private var timer: Timer?
-    private let appGroupID = "group.com.herview.app"
 
     init() {
         loadPhotoIdentifiers()
@@ -84,27 +83,21 @@ class SlideshowViewModel {
     }
 
     private func savePhotoIdentifiers() {
-        if let defaults = UserDefaults(suiteName: appGroupID) {
-            defaults.set(photoIdentifiers, forKey: "photoIdentifiers")
-        }
+        UserDefaults.standard.set(photoIdentifiers, forKey: "photoIdentifiers")
     }
 
     private func loadPhotoIdentifiers() {
-        if let defaults = UserDefaults(suiteName: appGroupID) {
-            photoIdentifiers = defaults.stringArray(forKey: "photoIdentifiers") ?? []
-        }
+        photoIdentifiers = UserDefaults.standard.stringArray(forKey: "photoIdentifiers") ?? []
     }
 
     private func saveSettings() {
-        if let defaults = UserDefaults(suiteName: appGroupID),
-           let encoded = try? JSONEncoder().encode(settings) {
-            defaults.set(encoded, forKey: "slideshowSettings")
+        if let encoded = try? JSONEncoder().encode(settings) {
+            UserDefaults.standard.set(encoded, forKey: "slideshowSettings")
         }
     }
 
     private func loadSettings() {
-        if let defaults = UserDefaults(suiteName: appGroupID),
-           let data = defaults.data(forKey: "slideshowSettings"),
+        if let data = UserDefaults.standard.data(forKey: "slideshowSettings"),
            let decoded = try? JSONDecoder().decode(SlideshowSettings.self, from: data) {
             settings = decoded
         }
