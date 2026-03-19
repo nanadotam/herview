@@ -6,12 +6,26 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct HerViewApp: App {
+    @State private var hasSeenOnboarding = UserDefaults.standard.bool(forKey: "hasSeenOnboarding")
+    @State private var modelContainer: ModelContainer?
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            if hasSeenOnboarding {
+                ContentView()
+                    .onChange(of: hasSeenOnboarding) { oldValue, newValue in
+                        UserDefaults.standard.set(newValue, forKey: "hasSeenOnboarding")
+                    }
+            } else {
+                OnboardingView(hasSeenOnboarding: $hasSeenOnboarding)
+                    .onChange(of: hasSeenOnboarding) { oldValue, newValue in
+                        UserDefaults.standard.set(newValue, forKey: "hasSeenOnboarding")
+                    }
+            }
         }
     }
 }

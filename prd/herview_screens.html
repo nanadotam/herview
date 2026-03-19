@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HerView — iOS Screen Mockups</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pink: #F84F9E;
+    --pink-light: #FFE4F3;
+    --pink-mid: #FF85C2;
+    --blue: #007AFF;
+    --blue-light: #E8F2FF;
+    --bg: #F2F2F7;
+    --card: #FFFFFF;
+    --text: #1C1C1E;
+    --text-2: #6D6D72;
+    --text-3: #AEAEB2;
+    --border: rgba(60,60,67,0.12);
+    --separator: rgba(60,60,67,0.08);
+    --red: #FF3B30;
+    --green: #34C759;
+    --font: -apple-system, 'SF Pro Display', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #E5E5EA;
+    font-family: var(--font);
+    min-height: 100vh;
+    padding: 48px 32px;
+  }
+
+  h1.page-title {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #8E8E93;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+
+  h2.page-subtitle {
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--text);
+    text-align: center;
+    margin-bottom: 48px;
+  }
+
+  .screens-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    justify-content: center;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .screen-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .screen-label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #8E8E93;
+  }
+
+  /* iPhone frame */
+  .phone {
+    width: 320px;
+    height: 692px;
+    background: #1C1C1E;
+    border-radius: 50px;
+    padding: 12px;
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,0.12),
+      0 40px 80px rgba(0,0,0,0.35),
+      0 20px 40px rgba(0,0,0,0.2);
+    position: relative;
+  }
+
+  .phone-inner {
+    width: 100%;
+    height: 100%;
+    background: var(--bg);
+    border-radius: 40px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Dynamic Island */
+  .dynamic-island {
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 34px;
+    background: #1C1C1E;
+    border-radius: 20px;
+    z-index: 10;
+  }
+
+  /* Status bar */
+  .status-bar {
+    height: 54px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding: 0 24px 8px;
+    position: relative;
+    z-index: 5;
+  }
+
+  .status-time {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .status-icons {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+
+  .status-icons svg {
+    fill: var(--text);
+  }
+
+  /* Nav bar */
+  .nav-bar {
+    padding: 0 20px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-title {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .nav-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(142,142,147,0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+  }
+
+  .nav-large-title {
+    padding: 4px 20px 12px;
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  /* Cards */
+  .card {
+    background: var(--card);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .card-row {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    gap: 12px;
+    min-height: 48px;
+  }
+
+  .card-row + .card-row {
+    border-top: 0.5px solid var(--separator);
+  }
+
+  .card-row-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 15px;
+  }
+
+  .card-row-text { flex: 1; }
+  .card-row-title { font-size: 15px; color: var(--text); }
+  .card-row-sub { font-size: 12px; color: var(--text-2); margin-top: 1px; }
+
+  .card-row-chevron {
+    color: var(--text-3);
+    font-size: 13px;
+  }
+
+  .card-row-value {
+    font-size: 15px;
+    color: var(--text-2);
+    margin-right: 4px;
+  }
+
+  /* Section label */
+  .section-label {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--text-2);
+    padding: 0 20px 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .section-block {
+    padding: 0 16px;
+    margin-bottom: 20px;
+  }
+
+  /* Tab bar */
+  .tab-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(20px);
+    border-top: 0.5px solid var(--border);
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-around;
+    padding-top: 10px;
+    z-index: 10;
+  }
+
+  .tab-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    font-size: 10px;
+    color: var(--text-3);
+  }
+
+  .tab-item.active { color: var(--pink); }
+
+  .tab-icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+  }
+
+  /* Pill button */
+  .btn-pill {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 52px;
+    border-radius: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+  }
+
+  .btn-primary {
+    background: var(--pink);
+    color: white;
+  }
+
+  .btn-secondary {
+    background: rgba(142,142,147,0.12);
+    color: var(--text);
+  }
+
+  .btn-blue {
+    background: var(--blue);
+    color: white;
+  }
+
+  /* Toggle */
+  .toggle {
+    width: 50px;
+    height: 30px;
+    border-radius: 15px;
+    position: relative;
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+
+  .toggle.on { background: var(--green); }
+  .toggle.off { background: var(--text-3); }
+
+  .toggle-thumb {
+    position: absolute;
+    top: 3px;
+    width: 24px;
+    height: 24px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+    transition: left 0.2s;
+  }
+
+  .toggle.on .toggle-thumb { left: 23px; }
+  .toggle.off .toggle-thumb { left: 3px; }
+
+  /* Photo grid */
+  .photo-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2px;
+  }
+
+  .photo-tile {
+    aspect-ratio: 1;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .photo-tile-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .photo-tile-check {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--pink);
+    border: 2px solid white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Gradient photo bg placeholders */
+  .grad-1 { background: linear-gradient(135deg, #FFB3D1 0%, #FF6B9D 100%); }
+  .grad-2 { background: linear-gradient(135deg, #A8C8FF 0%, #4A90E2 100%); }
+  .grad-3 { background: linear-gradient(135deg, #FFD4A8 0%, #FF9843 100%); }
+  .grad-4 { background: linear-gradient(135deg, #B8F0C8 0%, #56C96F 100%); }
+  .grad-5 { background: linear-gradient(135deg, #E4BBFF 0%, #A855F7 100%); }
+  .grad-6 { background: linear-gradient(135deg, #FFF0A8 0%, #F4C542 100%); }
+  .grad-7 { background: linear-gradient(135deg, #FFB3E8 0%, #E91E8C 100%); }
+  .grad-8 { background: linear-gradient(135deg, #B3F0FF 0%, #0EA5E9 100%); }
+  .grad-9 { background: linear-gradient(135deg, #FFD6B3 0%, #F97316 100%); }
+
+  /* Widget preview card */
+  .widget-preview {
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .widget-sm {
+    width: 128px;
+    height: 128px;
+  }
+
+  .widget-md {
+    width: 268px;
+    height: 128px;
+  }
+
+  .widget-lg {
+    width: 268px;
+    height: 268px;
+  }
+
+  /* Interval chip */
+  .interval-chip {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    background: rgba(142,142,147,0.12);
+    color: var(--text-2);
+    border: none;
+    cursor: pointer;
+  }
+
+  .interval-chip.selected {
+    background: var(--pink-light);
+    color: var(--pink);
+    font-weight: 600;
+  }
+
+  /* Onboarding */
+  .onboard-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--text-3);
+  }
+
+  .onboard-dot.active {
+    background: var(--pink);
+    width: 20px;
+    border-radius: 4px;
+  }
+
+  /* Scrollable screen content */
+  .screen-scroll {
+    overflow-y: auto;
+    height: calc(100% - 54px);
+    padding-bottom: 80px;
+  }
+
+  /* Pink gradient hero */
+  .hero-gradient {
+    background: linear-gradient(165deg, #FF85C2 0%, #F84F9E 40%, #C0336A 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Segmented control */
+  .segmented {
+    background: rgba(142,142,147,0.16);
+    border-radius: 10px;
+    padding: 2px;
+    display: flex;
+    gap: 2px;
+    margin: 0 16px 16px;
+  }
+
+  .seg-option {
+    flex: 1;
+    padding: 6px 0;
+    font-size: 13px;
+    font-weight: 500;
+    text-align: center;
+    border-radius: 8px;
+    color: var(--text-2);
+    cursor: pointer;
+  }
+
+  .seg-option.active {
+    background: white;
+    color: var(--text);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+  }
+
+  /* Face silhouette */
+  .face-circle {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    margin: 0 auto;
+  }
+
+  /* Filter pill */
+  .filter-pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 12px;
+    font-size: 13px;
+    background: rgba(142,142,147,0.10);
+    color: var(--text-2);
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .filter-pill.selected {
+    background: var(--pink-light);
+    color: var(--pink);
+  }
+
+  .filter-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+  }
+</style>
+</head>
+<body>
+
+<h1 class="page-title">HerView iOS App</h1>
+<h2 class="page-subtitle">Screen Mockups · MVP v1.0</h2>
+
+<div class="screens-grid">
+
+  <!-- ===== SCREEN 1: ONBOARDING ===== -->
+  <div class="screen-wrapper">
+    <div class="phone">
+      <div class="phone-inner">
+        <div class="dynamic-island"></div>
+        <div style="height:100%; display:flex; flex-direction:column; background: white;">
+
+          <!-- Hero -->
+          <div class="hero-gradient" style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:40px 32px 40px;">
+            <div class="face-circle" style="margin-bottom:20px;">🤍</div>
+            <div style="width:80px;height:4px;background:rgba(255,255,255,0.35);border-radius:2px;margin-bottom:28px;"></div>
+            <div style="font-size:28px;font-weight:700;color:white;text-align:center;line-height:1.2;margin-bottom:12px;">She's always<br>with you.</div>
+            <div style="font-size:15px;color:rgba(255,255,255,0.75);text-align:center;line-height:1.5;">Put her on your home screen.<br>No apps. No scrolling. Just her.</div>
+          </div>
+
+          <!-- Bottom sheet -->
+          <div style="background:white;padding:24px 20px 40px;">
+            <button class="btn-pill btn-primary" style="margin-bottom:12px;">Get Started</button>
+            <div style="font-size:13px;color:var(--text-3);text-align:center;">Private · Offline · No account needed</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <span class="screen-label">01 — Onboarding</span>
+  </div>
+
+  <!-- ===== SCREEN 2: HOME ===== -->
+  <div class="screen-wrapper">
+    <div class="phone">
+      <div class="phone-inner">
+        <div class="dynamic-island"></div>
+        <div class="status-bar">
+          <span class="status-time">9:41</span>
+          <div class="status-icons">
+            <svg width="16" height="12" viewBox="0 0 16 12"><rect x="0" y="3" width="3" height="9" rx="1" opacity="0.3"/><rect x="4.5" y="2" width="3" height="10" rx="1" opacity="0.5"/><rect x="9" y="0" width="3" height="12" rx="1" opacity="0.8"/><rect x="13.5" y="0" width="2.5" height="12" rx="1"/></svg>
+            <svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 3C5.5 3 3.3 4.1 1.8 5.9L0 4.1C2 1.6 4.8 0 8 0s6 1.6 8 4.1L14.2 5.9C12.7 4.1 10.5 3 8 3z" opacity="0.4"/><path d="M8 7c-1.1 0-2 .4-2.7 1.1L4 6.8C5.1 5.7 6.5 5 8 5s2.9.7 4 1.8L10.7 8.1C10 7.4 9.1 7 8 7z" opacity="0.7"/><circle cx="8" cy="11" r="1.5"/></svg>
+            <svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="currentColor" stroke-width="1" fill="none"/><rect x="1.5" y="2.5" width="14" height="7" rx="1.5" fill="var(--green)"/><path d="M23.5 4v4a2 2 0 000-4z"/></svg>
+          </div>
+        </div>
+
+        <div class="screen-scroll">
+          <!-- Header -->
+          <div style="padding:0 20px 20px; display:flex; align-items:center; justify-content:space-between;">
+            <div>
+              <div style="font-size:13px;color:var(--text-2);">Good morning</div>
+              <div style="font-size:28px;font-weight:700;color:var(--text);">HerView</div>
+            </div>
+            <div style="width:36px;height:36px;border-radius:50%;background:var(--pink-light);display:flex;align-items:center;justify-content:center;font-size:18px;">⚙️</div>
+          </div>
+
+          <!-- Active widget preview -->
+          <div style="padding:0 16px;margin-bottom:20px;">
+            <div style="font-size:13px;font-weight:500;color:var(--text-2);margin-bottom:10px;padding-left:4px;">ACTIVE WIDGET</div>
+            <div class="card" style="padding:16px;">
+              <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;">
+                <div class="widget-sm grad-7" style="flex-shrink:0;position:relative;border-radius:16px;">
+                  <div style="position:absolute;bottom:8px;left:8px;right:8px;background:rgba(0,0,0,0.3);border-radius:8px;padding:4px 6px;">
+                    <div style="font-size:9px;color:white;font-weight:500;">Photo 3 of 12</div>
+                  </div>
+                </div>
+                <div style="flex:1;">
+                  <div style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:4px;">12 photos selected</div>
+                  <div style="font-size:13px;color:var(--text-2);margin-bottom:10px;">Shuffling every 60s</div>
+                  <div style="display:inline-flex;align-items:center;gap:4px;background:rgba(52,199,89,0.12);padding:4px 10px;border-radius:20px;">
+                    <div style="width:6px;height:6px;border-radius:50%;background:var(--green);"></div>
+                    <span style="font-size:12px;color:var(--green);font-weight:600;">Running</span>
+                  </div>
+                </div>
+              </div>
+              <button class="btn-pill btn-secondary" style="height:42px;font-size:15px;">Edit Photos</button>
+            </div>
+          </div>
+
+          <!-- Quick stats -->
+          <div style="padding:0 16px;margin-bottom:20px;display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+            <div class="card" style="padding:14px;">
+              <div style="font-size:26px;font-weight:700;color:var(--pink);margin-bottom:2px;">12</div>
+              <div style="font-size:12px;color:var(--text-2);">Photos</div>
+            </div>
+            <div class="card" style="padding:14px;">
+              <div style="font-size:26px;font-weight:700;color:var(--blue);margin-bottom:2px;">60s</div>
+              <div style="font-size:12px;color:var(--text-2);">Interval</div>
+            </div>
+          </div>
+
+          <!-- Add widget guide -->
+          <div style="padding:0 16px;margin-bottom:20px;">
+            <div class="card" style="padding:16px;border:1.5px solid var(--pink-light);">
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+                <div style="width:34px;height:34px;border-radius:10px;background:var(--pink-light);display:flex;align-items:center;justify-content:center;font-size:18px;">📱</div>
+                <div>
+                  <div style="font-size:14px;font-weight:600;color:var(--text);">Add Widget to Home</div>
+                  <div style="font-size:12px;color:var(--text-2);">3 easy steps</div>
+                </div>
+              </div>
+              <button class="btn-pill" style="height:40px;background:var(--pink-light);color:var(--pink);font-size:14px;border:none;border-radius:12px;cursor:pointer;">Show me how →</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab bar -->
+        <div class="tab-bar">
+          <div class="tab-item active">
+            <div class="tab-icon">🏠</div>
+            <span>Home</span>
+          </div>
+          <div class="tab-item">
+            <div class="tab-icon">🖼️</div>
+            <span>Photos</span>
+          </div>
+          <div class="tab-item">
+            <div class="tab-icon">⚙️</div>
+            <span>Settings</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <span class="screen-label">02 — Home</span>
+  </div>
+
+  <!-- ===== SCREEN 3: PHOTO PICKER ===== -->
+  <div class="screen-wrapper">
+    <div class="phone">
+      <div class="phone-inner">
+        <div class="dynamic-island"></div>
+        <div class="status-bar">
+          <span class="status-time">9:41</span>
+          <div class="status-icons">
+            <svg width="16" height="12" viewBox="0 0 16 12"><rect x="0" y="3" width="3" height="9" rx="1" opacity="0.3"/><rect x="4.5" y="2" width="3" height="10" rx="1" opacity="0.5"/><rect x="9" y="0" width="3" height="12" rx="1" opacity="0.8"/><rect x="13.5" y="0" width="2.5" height="12" rx="1"/></svg>
+            <svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="currentColor" stroke-width="1" fill="none"/><rect x="1.5" y="2.5" width="17" height="7" rx="1.5" fill="var(--green)"/><path d="M23.5 4v4a2 2 0 000-4z"/></svg>
+          </div>
+        </div>
+
+        <!-- Nav -->
+        <div style="padding:4px 20px 12px;display:flex;align-items:center;justify-content:space-between;">
+          <div style="font-size:15px;color:var(--pink);">Cancel</div>
+          <div style="font-size:17px;font-weight:600;color:var(--text);">Select Photos</div>
+          <div style="font-size:15px;font-weight:600;color:var(--pink);">Add (5)</div>
+        </div>
+
+        <!-- Search bar placeholder -->
+        <div style="padding:0 16px 12px;">
+          <div style="background:rgba(142,142,147,0.12);border-radius:10px;height:34px;display:flex;align-items:center;padding:0 12px;gap:6px;">
+            <svg width="14" height="14" viewBox="0 0 20 20" fill="none"><circle cx="8.5" cy="8.5" r="5.5" stroke="#8E8E93" stroke-width="1.5"/><path d="M15 15l-3-3" stroke="#8E8E93" stroke-width="1.5" stroke-linecap="round"/></svg>
+            <span style="font-size:15px;color:var(--text-3);">Search</span>
+          </div>
+        </div>
+
+        <!-- Segmented -->
+        <div class="segmented">
+          <div class="seg-option active">Recents</div>
+          <div class="seg-option">Albums</div>
+          <div class="seg-option">Favorites</div>
+        </div>
+
+        <!-- Photo grid -->
+        <div style="padding:0 2px;flex:1;overflow:hidden;">
+          <div class="photo-grid">
+            <!-- 9 tiles: 5 selected (with check), 4 unselected -->
+            <div class="photo-tile grad-7"><div class="photo-tile-check"><svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+            <div class="photo-tile grad-2"></div>
+            <div class="photo-tile grad-1"><div class="photo-tile-check"><svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+            <div class="photo-tile grad-3"><div class="photo-tile-check"><svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+            <div class="photo-tile grad-5"></div>
+            <div class="photo-tile grad-4"><div class="photo-tile-check"><svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+            <div class="photo-tile grad-8"></div>
+            <div class="photo-tile grad-6"><div class="photo-tile-check"><svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+            <div class="photo-tile grad-9"></div>
+          </div>
+
+          <!-- Bottom add strip -->
+          <div style="position:absolute;bottom:0;left:12px;right:12px;padding:12px 0 32px;background:linear-gradient(to top,var(--bg) 60%,transparent);">
+            <button class="btn-pill btn-primary">Add 5 Photos</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <span class="screen-label">03 — Photo Picker</span>
+  </div>
+
+  <!-- ===== SCREEN 4: SETTINGS ===== -->
+  <div class="screen-wrapper">
+    <div class="phone">
+      <div class="phone-inner">
+        <div class="dynamic-island"></div>
+        <div class="status-bar">
+          <span class="status-time">9:41</span>
+          <div class="status-icons">
+            <svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="currentColor" stroke-width="1" fill="none"/><rect x="1.5" y="2.5" width="18" height="7" rx="1.5" fill="var(--green)"/><path d="M23.5 4v4a2 2 0 000-4z"/></svg>
+          </div>
+        </div>
+
+        <div class="nav-bar">
+          <div style="font-size:15px;color:var(--pink);">‹ Back</div>
+          <div class="nav-title">Settings</div>
+          <div style="width:40px;"></div>
+        </div>
+
+        <div class="screen-scroll">
+
+          <!-- Interval section -->
+          <div style="padding:0 16px 8px;">
+            <div class="section-label" style="padding:0 0 8px;">Slideshow Interval</div>
+            <div class="card" style="padding:16px;">
+              <div style="display:flex;flex-wrap:wrap;gap:8px;">
+                <button class="interval-chip">10s</button>
+                <button class="interval-chip">30s</button>
+                <button class="interval-chip selected">1 min</button>
+                <button class="interval-chip">5 min</button>
+                <button class="interval-chip">Custom</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Playback section -->
+          <div style="padding:8px 16px;">
+            <div class="section-label" style="padding:0 0 8px;">Playback</div>
+            <div class="card">
+              <div class="card-row">
+                <div class="card-row-icon" style="background:var(--pink-light);color:var(--pink);">🔀</div>
+                <div class="card-row-text">
+                  <div class="card-row-title">Shuffle</div>
+                  <div class="card-row-sub">Random order</div>
+                </div>
+                <div class="toggle on"><div class="toggle-thumb"></div></div>
+              </div>
+              <div class="card-row">
+                <div class="card-row-icon" style="background:var(--blue-light);color:var(--blue);">🔁</div>
+                <div class="card-row-text">
+                  <div class="card-row-title">Loop</div>
+                  <div class="card-row-sub">Repeat after last photo</div>
+                </div>
+                <div class="toggle on"><div class="toggle-thumb"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Display section -->
+          <div style="padding:8px 16px;">
+            <div class="section-label" style="padding:0 0 8px;">Display</div>
+            <div class="card">
+              <div class="card-row">
+                <div class="card-row-icon" style="background:#FFF0E5;">✂️</div>
+                <div class="card-row-text"><div class="card-row-title">Crop Mode</div></div>
+                <div class="card-row-value">Fill</div>
+                <div class="card-row-chevron">›</div>
+              </div>
+              <div class="card-row">
+                <div class="card-row-icon" style="background:#EEE5FF;">🎨</div>
+                <div class="card-row-text"><div class="card-row-title">Filter</div></div>
+                <div class="card-row-value">None</div>
+                <div class="card-row-chevron">›</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Filter picker inline -->
+          <div style="padding:0 16px 8px;">
+            <div style="display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;">
+              <div class="filter-pill selected">
+                <div class="filter-dot" style="background:var(--pink);"></div>
+                None
+              </div>
+              <div class="filter-pill">
+                <div class="filter-dot" style="background:#888;"></div>
+                B&W
+              </div>
+              <div class="filter-pill">
+                <div class="filter-dot" style="background:#F4A142;"></div>
+                Warm
+              </div>
+              <div class="filter-pill">
+                <div class="filter-dot" style="background:#60AAEE;"></div>
+                Cool
+              </div>
+            </div>
+          </div>
+
+          <!-- About -->
+          <div style="padding:8px 16px 20px;">
+            <div class="card">
+              <div class="card-row">
+                <div class="card-row-icon" style="background:#F0FFF0;">⭐</div>
+                <div class="card-row-text"><div class="card-row-title">Rate HerView</div></div>
+                <div class="card-row-chevron">›</div>
+              </div>
+              <div class="card-row">
+                <div class="card-row-icon" style="background:#FFF5E0;">📧</div>
+                <div class="card-row-text"><div class="card-row-title">Send Feedback</div></div>
+                <div class="card-row-chevron">›</div>
+              </div>
+              <div class="card-row">
+                <div class="card-row-icon" style="background:#F0F5FF;">🔒</div>
+                <div class="card-row-text"><div class="card-row-title">Privacy Policy</div></div>
+                <div class="card-row-chevron">›</div>
+              </div>
+            </div>
+            <div style="font-size:12px;color:var(--text-3);text-align:center;padding-top:16px;">HerView v1.0.0 · All data stays on device</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <span class="screen-label">04 — Settings</span>
+  </div>
+
+  <!-- ===== SCREEN 5: WIDGET INSTALL GUIDE ===== -->
+  <div class="screen-wrapper">
+    <div class="phone">
+      <div class="phone-inner">
+        <div class="dynamic-island"></div>
+        <div class="status-bar">
+          <span class="status-time">9:41</span>
+          <div class="status-icons">
+            <svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="currentColor" stroke-width="1" fill="none"/><rect x="1.5" y="2.5" width="16" height="7" rx="1.5" fill="var(--green)"/><path d="M23.5 4v4a2 2 0 000-4z"/></svg>
+          </div>
+        </div>
+
+        <div class="nav-bar">
+          <div style="font-size:15px;color:var(--pink);">‹ Back</div>
+          <div class="nav-title">Add Widget</div>
+          <div style="width:40px;"></div>
+        </div>
+
+        <div class="screen-scroll">
+          <!-- Step cards -->
+          <div style="padding:0 16px;">
+
+            <!-- Step 1 -->
+            <div class="card" style="padding:16px;margin-bottom:12px;border-left:3px solid var(--pink);">
+              <div style="display:flex;gap:12px;align-items:flex-start;">
+                <div style="width:28px;height:28px;border-radius:50%;background:var(--pink);display:flex;align-items:center;justify-content:center;color:white;font-size:13px;font-weight:700;flex-shrink:0;">1</div>
+                <div>
+                  <div style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:4px;">Long press your home screen</div>
+                  <div style="font-size:13px;color:var(--text-2);line-height:1.4;">Hold any empty space until icons start wiggling and a + button appears top left.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="card" style="padding:16px;margin-bottom:12px;">
+              <div style="display:flex;gap:12px;align-items:flex-start;">
+                <div style="width:28px;height:28px;border-radius:50%;background:rgba(142,142,147,0.15);display:flex;align-items:center;justify-content:center;color:var(--text);font-size:13px;font-weight:700;flex-shrink:0;">2</div>
+                <div>
+                  <div style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:4px;">Tap + and find HerView</div>
+                  <div style="font-size:13px;color:var(--text-2);line-height:1.4;">Search "HerView" in the widget gallery, then choose your size.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="card" style="padding:16px;margin-bottom:20px;">
+              <div style="display:flex;gap:12px;align-items:flex-start;">
+                <div style="width:28px;height:28px;border-radius:50%;background:rgba(142,142,147,0.15);display:flex;align-items:center;justify-content:center;color:var(--text);font-size:13px;font-weight:700;flex-shrink:0;">3</div>
+                <div>
+                  <div style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:4px;">Tap "Add Widget" and place it</div>
+                  <div style="font-size:13px;color:var(--text-2);line-height:1.4;">Drag to your preferred spot and tap Done. She'll appear within seconds.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Widget size preview -->
+            <div style="font-size:13px;font-weight:500;color:var(--text-2);margin-bottom:10px;padding-left:4px;">WIDGET SIZES</div>
+            <div class="card" style="padding:16px;margin-bottom:20px;">
+              <div style="display:flex;flex-direction:column;gap:12px;align-items:center;">
+                <div style="display:flex;gap:12px;align-items:flex-end;">
+                  <div>
+                    <div class="widget-sm grad-7" style="border-radius:16px;position:relative;">
+                      <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:white;font-size:10px;font-weight:600;text-shadow:0 1px 3px rgba(0,0,0,0.4);">Small</div>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="widget-md grad-1" style="border-radius:16px;position:relative;">
+                      <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:white;font-size:10px;font-weight:600;text-shadow:0 1px 3px rgba(0,0,0,0.4);">Medium</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <span class="screen-label">05 — Widget Guide</span>
+  </div>
+
+  <!-- ===== SCREEN 6: PHOTO MANAGEMENT ===== -->
+  <div class="screen-wrapper">
+    <div class="phone">
+      <div class="phone-inner">
+        <div class="dynamic-island"></div>
+        <div class="status-bar">
+          <span class="status-time">9:41</span>
+          <div class="status-icons">
+            <svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="currentColor" stroke-width="1" fill="none"/><rect x="1.5" y="2.5" width="18" height="7" rx="1.5" fill="var(--green)"/><path d="M23.5 4v4a2 2 0 000-4z"/></svg>
+          </div>
+        </div>
+
+        <div style="padding:4px 20px 8px;display:flex;align-items:center;justify-content:space-between;">
+          <div style="font-size:28px;font-weight:700;color:var(--text);">My Photos</div>
+          <button style="background:var(--pink);color:white;border:none;border-radius:20px;padding:6px 14px;font-size:14px;font-weight:600;display:flex;align-items:center;gap:5px;cursor:pointer;">
+            <span style="font-size:16px;">+</span> Add
+          </button>
+        </div>
+
+        <!-- Count bar -->
+        <div style="padding:0 20px 12px;display:flex;align-items:center;gap:8px;">
+          <span style="font-size:14px;color:var(--text-2);">12 photos · shuffling</span>
+          <div style="width:6px;height:6px;border-radius:50%;background:var(--green);"></div>
+        </div>
+
+        <div style="overflow-y:auto;height:calc(100% - 130px);">
+          <!-- Photo list with swipe hint -->
+          <div style="padding:0 16px;">
+            <div class="card" style="overflow:hidden;">
+
+              <!-- Row 1 -->
+              <div style="display:flex;align-items:center;padding:10px 14px;gap:12px;border-bottom:0.5px solid var(--separator);">
+                <div class="grad-7" style="width:52px;height:52px;border-radius:10px;flex-shrink:0;"></div>
+                <div style="flex:1;">
+                  <div style="font-size:14px;font-weight:500;color:var(--text);">Photo 1</div>
+                  <div style="font-size:12px;color:var(--text-2);">Added today</div>
+                </div>
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <div style="width:6px;height:6px;border-radius:50%;background:var(--pink);"></div>
+                  <span style="font-size:12px;color:var(--pink);font-weight:500;">Current</span>
+                </div>
+              </div>
+
+              <!-- Row 2 -->
+              <div style="display:flex;align-items:center;padding:10px 14px;gap:12px;border-bottom:0.5px solid var(--separator);">
+                <div class="grad-1" style="width:52px;height:52px;border-radius:10px;flex-shrink:0;"></div>
+                <div style="flex:1;">
+                  <div style="font-size:14px;font-weight:500;color:var(--text);">Photo 2</div>
+                  <div style="font-size:12px;color:var(--text-2);">Added today</div>
+                </div>
+                <div style="color:var(--text-3);font-size:18px;">=</div>
+              </div>
+
+              <!-- Row 3 (swipe-revealed) -->
+              <div style="display:flex;align-items:center;padding:10px 14px;gap:12px;border-bottom:0.5px solid var(--separator);background:#FFF5F8;">
+                <div class="grad-3" style="width:52px;height:52px;border-radius:10px;flex-shrink:0;"></div>
+                <div style="flex:1;">
+                  <div style="font-size:14px;font-weight:500;color:var(--text);">Photo 3</div>
+                  <div style="font-size:12px;color:var(--text-2);">Added yesterday</div>
+                </div>
+                <div style="background:var(--red);color:white;font-size:12px;font-weight:600;padding:5px 12px;border-radius:8px;">Delete</div>
+              </div>
+
+              <!-- Row 4 -->
+              <div style="display:flex;align-items:center;padding:10px 14px;gap:12px;border-bottom:0.5px solid var(--separator);">
+                <div class="grad-5" style="width:52px;height:52px;border-radius:10px;flex-shrink:0;"></div>
+                <div style="flex:1;">
+                  <div style="font-size:14px;font-weight:500;color:var(--text);">Photo 4</div>
+                  <div style="font-size:12px;color:var(--text-2);">Added yesterday</div>
+                </div>
+                <div style="color:var(--text-3);font-size:18px;">=</div>
+              </div>
+
+              <!-- Row 5 -->
+              <div style="display:flex;align-items:center;padding:10px 14px;gap:12px;">
+                <div class="grad-2" style="width:52px;height:52px;border-radius:10px;flex-shrink:0;"></div>
+                <div style="flex:1;">
+                  <div style="font-size:14px;font-weight:500;color:var(--text);">Photo 5</div>
+                  <div style="font-size:12px;color:var(--text-2);">Added 2 days ago</div>
+                </div>
+                <div style="color:var(--text-3);font-size:18px;">=</div>
+              </div>
+
+            </div>
+            <div style="font-size:12px;color:var(--text-3);text-align:center;padding:12px 0;">Swipe left to remove · Drag = to reorder</div>
+          </div>
+        </div>
+
+        <!-- Tab bar -->
+        <div class="tab-bar">
+          <div class="tab-item">
+            <div class="tab-icon">🏠</div>
+            <span>Home</span>
+          </div>
+          <div class="tab-item active">
+            <div class="tab-icon">🖼️</div>
+            <span>Photos</span>
+          </div>
+          <div class="tab-item">
+            <div class="tab-icon">⚙️</div>
+            <span>Settings</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <span class="screen-label">06 — Photo Manager</span>
+  </div>
+
+</div>
+
+<!-- Color swatch guide -->
+<div style="max-width:480px;margin:56px auto 0;text-align:center;">
+  <div style="font-size:12px;letter-spacing:0.06em;text-transform:uppercase;color:#8E8E93;margin-bottom:16px;">Brand Colors</div>
+  <div style="display:flex;gap:12px;justify-content:center;">
+    <div style="text-align:center;">
+      <div style="width:56px;height:56px;border-radius:14px;background:#F84F9E;margin:0 auto 6px;box-shadow:0 4px 12px rgba(248,79,158,0.4);"></div>
+      <div style="font-size:11px;color:#636366;font-weight:500;">#F84F9E</div>
+      <div style="font-size:10px;color:#AEAEB2;">Primary Pink</div>
+    </div>
+    <div style="text-align:center;">
+      <div style="width:56px;height:56px;border-radius:14px;background:#007AFF;margin:0 auto 6px;box-shadow:0 4px 12px rgba(0,122,255,0.35);"></div>
+      <div style="font-size:11px;color:#636366;font-weight:500;">#007AFF</div>
+      <div style="font-size:10px;color:#AEAEB2;">iOS Blue</div>
+    </div>
+    <div style="text-align:center;">
+      <div style="width:56px;height:56px;border-radius:14px;background:#FFE4F3;margin:0 auto 6px;border:1px solid rgba(248,79,158,0.2);"></div>
+      <div style="font-size:11px;color:#636366;font-weight:500;">#FFE4F3</div>
+      <div style="font-size:10px;color:#AEAEB2;">Pink Light</div>
+    </div>
+    <div style="text-align:center;">
+      <div style="width:56px;height:56px;border-radius:14px;background:#F2F2F7;margin:0 auto 6px;border:1px solid rgba(0,0,0,0.08);"></div>
+      <div style="font-size:11px;color:#636366;font-weight:500;">#F2F2F7</div>
+      <div style="font-size:10px;color:#AEAEB2;">System BG</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
