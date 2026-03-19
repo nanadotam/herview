@@ -6,13 +6,70 @@ struct PhotoPickerView: View {
     @Environment(\.dismiss) var dismiss
     let viewModel: SlideshowViewModel
     let onPhotosPicked: () -> Void
+    @State private var isProcessing = false
+    @State private var processingMessage = ""
 
     var body: some View {
         ZStack {
-            PHPickerRepresentable(viewModel: viewModel, isPresented: .constant(true)) { didAdd in
-                if didAdd {
+            PHPickerRepresentable(viewModel: viewModel, isPresented: .constant(true)) { results in
+                handlePhotosPicked(results)
+            }
+
+            // Loading overlay
+            if isProcessing {
+                VStack(spacing: 16) {
+                    ProgressView()
+                        .scaleEffect(1.5)
+                    Text(processingMessage)
+                        .font(.callout)
+                        .foregroundColor(.gray)
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Color.black.opacity(0.3))
+            }
+        }
+    }
+
+    private func handlePhotosPicked(_ results: [PHPickerResult]) {
+        isProcessing = true
+        processingMessage = "Adding photos..."
+
+        Task {
+            var addedCount = 0
+            let totalCount = results.count
+
+            for (index, result) in results.enumerated() {
+                // Update progress message
+                await MainActor.run {
+                    processingMessage = "Adding photo \(index + 1) of \(totalCount)..."
+                }
+
+                // Get asset identifier and validate it exists
+                if let assetIdentifier = result.assetIdentifier {
+                    let asset = PHAsset.fetchAssets(withLocalIdentifiers: [assetIdentifier], options: nil).firstObject
+
+                    if asset != nil {
+                        // Photo exists, add it
+                        viewModel.addPhoto(with: assetIdentifier)
+                        addedCount += 1
+                    }
+                }
+
+                // Small delay to ensure UI updates
+                try? await Task.sleep(nanoseconds: 100_000_000)
+            }
+
+            // Show completion message
+            await MainActor.run {
+                if addedCount > 0 {
+                    processingMessage = "Added \(addedCount) photo\(addedCount > 1 ? "s" : "")!"
+                    try? Task.sleep(nanoseconds: 500_000_000)
                     onPhotosPicked()
                     dismiss()
+                } else {
+                    processingMessage = "No photos added"
+                    try? Task.sleep(nanoseconds: 500_000_000)
+                    isProcessing = false
                 }
             }
         }
@@ -22,13 +79,14 @@ struct PhotoPickerView: View {
 struct PHPickerRepresentable: UIViewControllerRepresentable {
     let viewModel: SlideshowViewModel
     @Binding var isPresented: Bool
-    let onComplete: (Bool) -> Void
+    let onComplete: ([PHPickerResult]) -> Void
 
     func makeUIViewController(context: Context) -> PHPickerViewController {
         var config = PHPickerConfiguration()
-        config.selectionLimit = 0  // Unlimited selection
+        config.selectionLimit = 0
         config.preferredAssetRepresentationMode = .current
         config.selection = .ordered
+        config.filter = .images
 
         let picker = PHPickerViewController(configuration: config)
         picker.delegate = context.coordinator
@@ -38,35 +96,19 @@ struct PHPickerRepresentable: UIViewControllerRepresentable {
     func updateUIViewController(_ uiViewController: PHPickerViewController, context: Context) {}
 
     func makeCoordinator() -> Coordinator {
-        Coordinator(viewModel: viewModel, onComplete: onComplete)
+        Coordinator(onComplete: onComplete)
     }
 
     class Coordinator: NSObject, PHPickerViewControllerDelegate {
-        let viewModel: SlideshowViewModel
-        let onComplete: (Bool) -> Void
-        weak var pickerViewController: PHPickerViewController?
+        let onComplete: ([PHPickerResult]) -> Void
 
-        init(viewModel: SlideshowViewModel, onComplete: @escaping (Bool) -> Void) {
-            self.viewModel = viewModel
+        init(onComplete: @escaping ([PHPickerResult]) -> Void) {
             self.onComplete = onComplete
         }
 
         func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-            self.pickerViewController = picker
-
-            var addedCount = 0
-
-            for result in results {
-                // Get the asset identifier directly from the result
-                if let assetIdentifier = result.assetIdentifier {
-                    self.viewModel.addPhoto(with: assetIdentifier)
-                    addedCount += 1
-                }
-            }
-
-            // Dismiss the picker
             picker.dismiss(animated: true) {
-                self.onComplete(addedCount > 0)
+                self.onComplete(results)
             }
         }
     }
