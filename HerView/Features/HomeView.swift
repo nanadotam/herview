@@ -210,6 +210,6 @@ struct SlideshowPreviewCard: View {
     }
 }
 
-#Preview {
-    HomeView()
-}
+// #Preview {
+//    HomeView()
+// }

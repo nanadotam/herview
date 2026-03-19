@@ -120,6 +120,6 @@ struct PHPickerRepresentable: UIViewControllerRepresentable {
     }
 }
 
-#Preview {
-    PhotoPickerView(viewModel: SlideshowViewModel(), onPhotosPicked: {})
-}
+// #Preview {
+//    PhotoPickerView(viewModel: SlideshowViewModel(), onPhotosPicked: {})
+// }
